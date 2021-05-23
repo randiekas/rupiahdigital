@@ -12,12 +12,12 @@
 				</div>
 				<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
 					<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-					Selamat datang di SOL ID
+					Selamat datang di IDRS
 					</h3>
 					<div class="mt-2">
 					<p class="text-sm text-gray-500">
-						Apa itu <b>SOL ID</b> ? <br/>
-						SOL ID adalah crypto wallet untuk solana.<br/>
+						Apa itu <b>IDRS</b> ? <br/>
+						IDRS adalah crypto wallet untuk solana.<br/>
 						mulai dari membuat wallet solana, topup, transfer hingga membelanjakan solana wallet kamu.
 					</p>
 					</div>
@@ -51,22 +51,14 @@
 				</div>
 				<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
 					<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-					Membuat SOL Wallet
+					Membuat IDRS Wallet
 					</h3>
 					<div class="mt-2">
 					<p class="text-sm text-gray-500">
 						Setelah membuat wallet, anda akan mendapatkan file untuk mengakses wallet, pastikan anda menyimpanya dengan baik. <br/><br/>
 						Jika anda lupa password atau kehilangan file nya, maka tidak ada seorangpun yang dapat mengembalikan wallet anda.
 					</p>
-					<div class="mt-2" v-if="akun">
-						<label for="company_website" class="block text-sm font-medium text-gray-700">
-						Alamat Wallet
-						</label>
-						<div class="mt-1 flex rounded-md shadow-sm">
-							<input :value="akun.publicKey.toString()" type="text" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full  rounded-md sm:text-sm border-gray-300">
-						</div>
-					</div>
-					<div class="mt-2" v-if="akun">
+					<div class="mt-2" v-if="akun && !memproses">
 						<label for="company_website" class="block text-sm font-medium text-gray-700">
 						File Wallet
 						</label>
@@ -94,6 +86,13 @@
 					Buat Wallet
 				</button>
 				<button 
+					v-else-if="memproses===true"
+					type="button" 
+					class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm ..." disabled>
+					<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader animate-spin h-5 w-5 mr-3"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>	
+					Memproes ...
+				</button>
+				<button 
 					v-else
 					v-on:click="step='masukAkun'"
 					type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
@@ -112,7 +111,7 @@
 				</div>
 				<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
 					<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-					Masuk SOL Wallet
+					Masuk IDRS Wallet
 					</h3>
 					<div class="mt-2">
 					<p class="text-sm text-gray-500">
@@ -139,7 +138,7 @@
 						Alamat Wallet
 						</label>
 						<div class="mt-1 flex rounded-md shadow-sm">
-							<input readonly type="text" v-model="pubKey" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full  rounded-md sm:text-sm border-gray-300">
+							<input readonly type="text" v-model="akunIDRS" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full  rounded-md sm:text-sm border-gray-300">
 						</div>
 					</div>
 					
@@ -154,9 +153,16 @@
 				</nuxt-link>
 				<button 
 					v-on:click="step='selesai'"
-					v-if="pubKey!=''"
+					v-if="pubKey!='' && memproses==false"
 					type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
 					Lanjutkan
+				</button>
+				<button 
+					v-else-if="memproses===true && pubKey!=''"
+					type="button" 
+					class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm ..." disabled>
+					<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader animate-spin h-5 w-5 mr-3"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>	
+					Memproes ...
 				</button>
 			</div>
 		</Modal>
@@ -247,17 +253,23 @@
 	</div>
 </template>
 <script>
-import { Keypair, Connection, PublicKey } from '@solana/web3.js';
+import * as BufferLayout from 'buffer-layout';
+import { Keypair, Connection, PublicKey, SYSVAR_RENT_PUBKEY, TransactionInstruction, sendAndConfirmTransaction, Account, Transaction, SystemProgram } from '@solana/web3.js';
 const WALLET_URL = "https://api.devnet.solana.com"
 export default {
 	data:() => ({
+		memproses: false,
 		akun: false,
+		akunIDRS: '',
 		pubKey:'',
 		step:'intro', // intro, buatAkun, masukAkun, selesai
+		tokenIDRS: "BSPBtfc6z9DC5XseYfG4xcvYqyRTTvvCWGD3k1xWKXem",
 		dompet:{
+			akunIDRS:'',
 			pubKey:'',
 			secretKey:'',
-			saldo:''
+			saldo:0,
+			saldoSupply:0,
 		},
 		koneksi: false
 	}),
@@ -265,9 +277,15 @@ export default {
 		
 	},
 	methods:{
-		handleBuatWallet: function(){
-			const akun 	= Keypair.generate()
-			this.akun	= akun
+		handleBuatWallet: async function(){
+			this.memproses	= true
+			const akun		= Keypair.generate()
+			this.akun		= akun
+			let koneksi		= new Connection(WALLET_URL)
+			await koneksi.requestAirdrop(akun.publicKey, 1000000000)
+			koneksi			= new Connection(WALLET_URL)
+			await new Promise(r => setTimeout(r, 10000));
+			this.memproses	= false
 			// console.log(akun.publicKey.toString())
 			// console.log(akun.secretKey)
 		},
@@ -303,24 +321,115 @@ export default {
 				// const akun 		= Keypair.fromSecretKey(new Uint8Array([35,12,242,240,11,17,70,44,97,128,120,182,157,17,194,22,1,74,169,157,98,196,193,160,250,179,152,219,26,64,254,57,144,112,26,144,239,169,227,98,88,117,81,168,184,72,140,152,41,230,112,79,33,102,17,164,212,25,108,85,100,40,242,170]))
 				const keypair		= Keypair.fromSecretKey(new Uint8Array(JSON.parse(event.target.result)))
 				const akun 			= new PublicKey(keypair.publicKey.toString())
+				const tokenIDRS		= new PublicKey(this.tokenIDRS) // menggunakan token metadata
 				this.akun			= akun
 				this.pubKey			= keypair.publicKey.toString()
 
 				const koneksi		= new Connection(WALLET_URL)
 				this.koneksi		= koneksi
+
+				let saldoSupply		= await koneksi.getTokenSupply(tokenIDRS)
+				let listWallet		= await koneksi.getParsedTokenAccountsByOwner(akun, {mint:tokenIDRS})
+				let akunIDRS		= {}
+				if(listWallet.value.length){
+					akunIDRS 		= listWallet.value[0].pubkey
+				}else{
+					console.log("akun tidak ada");
+					this.memproses	= true
+					const ACCOUNT_LAYOUT 	= BufferLayout.struct([
+						BufferLayout.blob(32, 'mint'),
+						BufferLayout.blob(32, 'owner'),
+						BufferLayout.nu64('amount'),
+						BufferLayout.blob(93),
+					]);
+					const transaction 	= new Transaction()
+					const akun_baru		= new Account()
+					const lam			= await koneksi.getMinimumBalanceForRentExemption(ACCOUNT_LAYOUT.span)
+
+					transaction.add(
+						SystemProgram.createAccount({
+							fromPubkey: akun,
+							newAccountPubkey: akun_baru.publicKey,
+							lamports: lam,
+							space: ACCOUNT_LAYOUT.span,
+							programId: (new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")),
+						}),
+					);
+
+					const keys = [
+						{ pubkey: akun_baru.publicKey, isSigner: false, isWritable: true },
+						{ pubkey: (new PublicKey(this.tokenIDRS)), isSigner: false, isWritable: false },
+						{ pubkey: akun, isSigner: false, isWritable: false },
+						{ pubkey: SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false },
+					];
+
+					transaction.add(
+						new TransactionInstruction({
+							keys,
+							data: this.encodeTokenInstructionData({
+								initializeAccount: {},
+							}),
+							programId: (new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")),
+						})
+					);
+					
+					const akunSigner		= new Account(new Uint8Array(JSON.parse(event.target.result)))
+					const signers			= [akunSigner, akun_baru]
+					console.log("mendaftar")
+					const signedTransaksi	= await sendAndConfirmTransaction(koneksi, transaction, signers)
+					console.log("mendaftar selesai")
+					listWallet		= await koneksi.getParsedTokenAccountsByOwner(akun, {mint:tokenIDRS})
+					akunIDRS 		= listWallet.value[0].pubkey
+					console.log(signedTransaksi)
+					this.memproses	= false
+					
+				}
+				
+				// let saldoSupply		= await koneksi.getTokenAccountBalance(akunIDRS)
+				// let saldoSupply		= await koneksi.getTokenLargestAccounts(tokenIDRS)
+
+				// set data
+				this.akunIDRS		= akunIDRS
 				
 				this.dompet			= {
-					pubKey:keypair.publicKey.toString(),
-					secretKey:keypair.secretKey.toString(),
-					saldo:0
+					akunIDRS: akunIDRS.toString(),
+					pubKey: keypair.publicKey.toString(),
+					secretKey: keypair.secretKey.toString(),
+					saldo: 0,
+					saldoSupply: saldoSupply.value.amount
 				}
 				this.handleReloadSaldo()
+
+				
 			}
 			reader.readAsText(e.target.files[0])
 		},
 		handleReloadSaldo: async function(){
-			const saldo 		= (await this.koneksi.getBalance(this.akun))
-			this.dompet.saldo	= saldo/1000000000
+			const saldo 			= (await this.koneksi.getTokenAccountBalance(this.akunIDRS)).value.amount
+			this.dompet.saldo		= saldo
+		},
+		encodeTokenInstructionData: function(instruction) {
+			const LAYOUT = BufferLayout.union(BufferLayout.u8('instruction'));
+			LAYOUT.addVariant(
+			0,
+			BufferLayout.struct([
+				BufferLayout.u8('decimals'),
+				BufferLayout.blob(32, 'mintAuthority'),
+				BufferLayout.u8('freezeAuthorityOption'),
+				BufferLayout.blob(32, 'freezeAuthority'),
+			]),
+			'initializeMint',
+			);
+			LAYOUT.addVariant(1, BufferLayout.struct([]), 'initializeAccount');
+			LAYOUT.addVariant(3, BufferLayout.struct([BufferLayout.nu64('amount')]), 'transfer');
+			LAYOUT.addVariant(7, BufferLayout.struct([BufferLayout.nu64('amount')]), 'mintTo');
+			LAYOUT.addVariant(8, BufferLayout.struct([BufferLayout.nu64('amount')]), 'burn');
+			LAYOUT.addVariant(9, BufferLayout.struct([]), 'closeAccount');
+
+			const instructionMaxSpan = Math.max(...Object.values(LAYOUT.registry).map((r) => r.span));
+			const b = Buffer.alloc(instructionMaxSpan);
+			const span = LAYOUT.encode(instruction, b);
+			return b.slice(0, span);
 		}
 	}
 }

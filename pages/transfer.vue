@@ -16,7 +16,7 @@
 					</h3>
 					<div class="mt-2">
 					<p class="text-sm text-gray-500">
-						Kamu berhasil mengirim salo sol
+						Kamu berhasil mengirim salo IDRS
 					</p>
 					
 
@@ -63,14 +63,14 @@
 			<div class="shadow sm:rounded-md sm:overflow-hidden">
 			<div class="px-4 py-5 bg-white space-y-6 sm:p-6">
 				<h1 class="text-5xl leading-none font-extrabold text-gray-900 tracking-tight mb-4">Transfer</h1>
-				<p class="text-xl tracking-tight mb-10 text-gray-900">Transfer sesama saldo sol anda</p>
+				<p class="text-xl tracking-tight mb-10 text-gray-900">Transfer sesama saldo IDRS anda</p>
 
 				<div>
 				<label for="about" class="block text-sm font-medium text-gray-700">
-					Saldo Wallet
+					Saldo Wallet IDRS anda
 				</label>
 				<div class="mt-1">
-					<p class="text-4xl text-gray-900">{{ dompet.saldo }} SOL</p>
+					<p class="text-4xl text-gray-900">{{ $helper.convertToRupiah(dompet.saldo) }} IDRS</p>
 				</div>
 				</div>
 
@@ -117,8 +117,8 @@
 </template>
 
 <script>
-import { Account, PublicKey, Transaction, SystemProgram, sendAndConfirmTransaction } from '@solana/web3.js';
-const WALLET_URL = "https://api.devnet.solana.com"
+import { Account, PublicKey, Transaction, SystemProgram, sendAndConfirmTransaction, TransactionInstruction } from '@solana/web3.js';
+import * as BufferLayout from 'buffer-layout';
 export default {
 	props: ['dompet', 'koneksi', 'handleReloadSaldo'],
 	data:() => ({
@@ -134,23 +134,36 @@ export default {
 	methods:{
 		handleTransfer:async function (){
 			this.processing		= true
+			const akun		= new Account(new Uint8Array(JSON.parse(`[${this.dompet.secretKey}]`)))
+			const keys = [
+				{ pubkey: new PublicKey(this.dompet.akunIDRS), isSigner: false, isWritable: true },
+				{ pubkey: new PublicKey(this.destPubKey), isSigner: false, isWritable: true },
+				{ pubkey: akun.publicKey, isSigner: true, isWritable: false },
+			];
 			const transaction = new Transaction().add(
-				SystemProgram.transfer({
-					fromPubkey: new PublicKey(this.dompet.pubKey),
-					toPubkey: new PublicKey(this.destPubKey),
-					lamports:this.jumlah_transfer*1000000000,
+				new TransactionInstruction({
+					keys,
+					data: this.encodeTokenInstructionData({
+						transfer: { amount:this.jumlah_transfer },
+					}),
+					programId: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
 				}),
+				// SystemProgram.transfer({
+				// 	programId: new PublicKey(this.dompet.akunIDRS),
+				// 	fromPubkey: new PublicKey(this.dompet.pubKey),
+				// 	toPubkey: new PublicKey(this.destPubKey),
+				// 	lamports:this.jumlah_transfer,
+				// }),
 				
 			);
 			console.log("mengirim")
-			const akun		= new Account(new Uint8Array(JSON.parse(`[${this.dompet.secretKey}]`)))
-			console.log(akun.publicKey.toString())
 			const signers			= [akun]
 			const signedTransaksi	= await sendAndConfirmTransaction(this.koneksi, transaction, signers)
 			// const signedTransaksi	= (await this.koneksi.sendTransaction(transaction, signers))
 			console.log(signedTransaksi)
 			this.processing			= false
 			this.popup				= true
+			console.log("mengirim berhasil")
 			// const transaksi		= SystemProgram.transfer({
 			// 	fromPubkey: this.dompet.pubKey,
 			// 	toPubkey: destinationAddress,
@@ -161,6 +174,29 @@ export default {
 		handleTutupPopup: function(){
 			this.handleReloadSaldo()
 			this.popup				= false
+		},
+		encodeTokenInstructionData: function(instruction) {
+			const LAYOUT = BufferLayout.union(BufferLayout.u8('instruction'));
+			LAYOUT.addVariant(
+			0,
+			BufferLayout.struct([
+				BufferLayout.u8('decimals'),
+				BufferLayout.blob(32, 'mintAuthority'),
+				BufferLayout.u8('freezeAuthorityOption'),
+				BufferLayout.blob(32, 'freezeAuthority'),
+			]),
+			'initializeMint',
+			);
+			LAYOUT.addVariant(1, BufferLayout.struct([]), 'initializeAccount');
+			LAYOUT.addVariant(3, BufferLayout.struct([BufferLayout.nu64('amount')]), 'transfer');
+			LAYOUT.addVariant(7, BufferLayout.struct([BufferLayout.nu64('amount')]), 'mintTo');
+			LAYOUT.addVariant(8, BufferLayout.struct([BufferLayout.nu64('amount')]), 'burn');
+			LAYOUT.addVariant(9, BufferLayout.struct([]), 'closeAccount');
+
+			const instructionMaxSpan = Math.max(...Object.values(LAYOUT.registry).map((r) => r.span));
+			const b = Buffer.alloc(instructionMaxSpan);
+			const span = LAYOUT.encode(instruction, b);
+			return b.slice(0, span);
 		}
 	}
 }

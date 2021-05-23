@@ -7,14 +7,23 @@
 			<div class="shadow sm:rounded-md sm:overflow-hidden">
 			<div class="px-4 py-5 bg-white space-y-6 sm:p-6">
 				<h1 class="text-5xl leading-none font-extrabold text-gray-900 tracking-tight mb-4">Wallet</h1>
-				<p class="text-xl tracking-tight mb-10 text-gray-900">Kelola SOL Wallet anda, disini anda bisa topup, transfer, hingga belanja menggunakan saldo SOL anda</p>
+				<p class="text-xl tracking-tight mb-10 text-gray-900">Kelola IDRS Wallet anda, disini anda bisa topup, transfer, hingga belanja menggunakan saldo IDRS anda</p>
 
 				<div>
 				<label for="about" class="block text-sm font-medium text-gray-700">
-					Saldo Wallet
+					Total IDRS yang diedarkan
 				</label>
 				<div class="mt-1">
-					<p class="text-4xl text-gray-900">{{dompet.saldo}} SOL</p>
+					<p class="text-4xl text-gray-900">{{$helper.convertToRupiah(dompet.saldoSupply)}} IDRS</p>
+				</div>
+				</div>
+
+				<div>
+				<label for="about" class="block text-sm font-medium text-gray-700">
+					Saldo Wallet IDRS anda
+				</label>
+				<div class="mt-1">
+					<p class="text-4xl text-gray-900">{{$helper.convertToRupiah(dompet.saldo)}} IDRS</p>
 				</div>
 				</div>
 
@@ -24,7 +33,7 @@
 					Alamat Wallet
 					</label>
 					<div class="mt-1 flex rounded-md shadow-sm">
-						<input type="text" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300" :value="dompet.pubKey">
+						<input type="text" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300" :value="dompet.akunIDRS">
 						<button type="button" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
 							Salin
 						</button>
@@ -73,8 +82,6 @@
 </template>
 
 <script>
-import { Keypair, Connection, AccountInfo, PublicKey } from '@solana/web3.js';
-const WALLET_URL = "https://api.devnet.solana.com"
 export default {
 	props: ["dompet"],
 	data:() => ({
