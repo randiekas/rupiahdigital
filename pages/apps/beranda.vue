@@ -229,7 +229,7 @@ export default {
 	},
 	methods:{
 		handelSalin: function(tipe){
-			var copyText = document.getElementById("alamatSolana");
+			var copyText = document.getElementById(`alamat${tipe}`);
 
 			/* Select the text field */
 			copyText.select();
