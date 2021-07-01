@@ -48,7 +48,7 @@
 				</v-list-item>
 				<v-list-item
 					color="primary"
-					href="/">
+					v-on:click="handelKeluar">
 					<v-list-item-action>
 						<v-icon>mdi-logout</v-icon>
 					</v-list-item-action>
@@ -74,7 +74,7 @@
 			
 		</v-main>
 
-		<!-- form wallet -->
+		<!-- form wallet -->		
 		<v-dialog
 			v-model="dialog"
 			persistent
@@ -137,7 +137,7 @@
 		</v-dialog>
 		<!-- form login-->
 		<v-dialog
-			v-if="dompet.length>0 && akun===false"
+			v-if="(dompet.length>0 && storagePassword!=undefined)&& akun===false"
 			v-model="formMasuk"
 			persistent
 			max-width="600px">
@@ -242,6 +242,7 @@ export default {
 			fixed: false,
 			right: true,
 			rightDrawer: false,
+			storagePassword: localStorage.getItem(user.email),
 			title: 'IDISI',
 			tipe,
 			apps:{
@@ -269,6 +270,38 @@ export default {
 						"nama":"Withdraw",
 						"deskripsi":"Sistem Pengelolaan Data Keuangan Terpadu",
 						"link":"/apps/withdraw"
+					},
+				],
+				'admin': [
+					{
+						"ikon": "mdi-wallet",
+						"nama":"Wallet",
+						"deskripsi":"Sistem Pengelolaan Penerimaan Peserta Didik Baru",
+						"link":"/apps/dompet"
+					},
+					{
+						"ikon": "mdi-cash-100",
+						"nama":"Beli Token",
+						"deskripsi":"Sistem Pengelolaan Data Akademik Terpadu",
+						"link":"/apps/beli"
+					},
+					{
+						"ikon": "mdi-cash-multiple",
+						"nama":"Transfer Token",
+						"deskripsi":"Sistem Pengelolaan Data Akademik Terpadu",
+						"link":"/apps/transfer"
+					},
+					{
+						"ikon": "mdi-bank-transfer",
+						"nama":"Withdraw",
+						"deskripsi":"Sistem Pengelolaan Data Keuangan Terpadu",
+						"link":"/apps/withdraw"
+					},
+					{
+						"ikon": "mdi-bank-transfer",
+						"nama":"Transaksi",
+						"deskripsi":"Kelola data transaksi",
+						"link":"/apps/transaksi"
 					},
 				],
 			},
@@ -305,6 +338,9 @@ export default {
 					this.$auth.$storage.setUniversal("dompet", JSON.stringify(resp.data))
 					this.dompet	= resp.data
 					if(this.dompet.length===0){
+						this.handelBukaFormDompet()
+					}
+					if(this.storagePassword==undefined){
 						this.handelBukaFormDompet()
 					}
 					// redirect('/apps/beranda')
@@ -363,11 +399,18 @@ export default {
 									iterations,
 									digest,
 								})
-			localStorage.setItem("locked", locked)
-
-
+			localStorage.setItem(this.user.email, locked)
 			const derivedSeed 		= derivePath(`m/44'/501'/0'/0'`, seed).key
 			const akun				= Keypair.fromSeed(derivedSeed)
+
+			// pengecekan ada yang sama
+			if(this.dompet.filter((item)=>item.alamat_solana==akun.publicKey.toString()).length>0){
+				this.isFetching			= false
+				this.dialog				= false
+				this.storagePassword	= localStorage.getItem(this.user.email)
+				return false
+			}
+			
 			const payload			= {
 				nama: `Wallet ${this.getDompet().length+1}`,
 				alamat_solana: akun.publicKey.toString(),
@@ -390,7 +433,7 @@ export default {
 		},
 		handelMasuk: async function(){
 			
-			const lockedData = localStorage.getItem("locked")
+			const lockedData = localStorage.getItem(this.user.email)
 			const {
 				encrypted: encodedEncrypted,
 				nonce: encodedNonce,
@@ -442,6 +485,11 @@ export default {
 		handelUpdateSaldoIDRS: async function(){
 			const saldo 	= (await this.koneksi.getTokenAccountBalance(this.akunIDRS.pubkey)).value.amount
 			this.saldoIDRS	= saldo
+		},
+		handelKeluar: async function(){
+			await localStorage.removeItem(this.user.email)
+			await this.$auth.logout()
+			redirect("/")
 		}
 	}
 }

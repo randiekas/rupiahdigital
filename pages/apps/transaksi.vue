@@ -5,18 +5,9 @@
 			<v-container>
 				<div :class="`mt-6 text-h6 d-flex justify-space-between`">
 					<div>
-						<p class="text-h4 mb-0">Beli</p>
-						<p class="subtitle-2">Beli/topup token IDRS</p>
+						<p class="text-h4 mb-0">Transaksi</p>
+						<p class="subtitle-2">Kelola history transaksi</p>
 					</div>
-					<div>
-						<v-btn 
-							v-on:click="dialog=true"
-							small 
-							class="d-xs-none">
-							<v-icon left>mdi-plus-circle</v-icon>
-							Topup
-						</v-btn>
-					</div>					
 				</div>
 				
 			</v-container>
@@ -43,6 +34,26 @@
 				<template v-slot:[`item.jumlah`]="{item}">
 					Rp. {{ convertCurrency(item.jumlah) }}
 				</template>
+				<template v-slot:[`item.aksi`]="{item}">
+					<v-btn small v-if="item.status==='SUCCESS'" class="primary" v-on:click="handelKonfirmasiDialog(item)">
+						<v-icon small left>
+							mdi-check
+						</v-icon>
+						Konfirmasi transfer
+					</v-btn>
+					<v-btn small v-if="item.status==='PROCESS'" class="warning">
+						<v-icon small left>
+							mdi-timer-sand
+						</v-icon>
+						Menunggu Transfer
+					</v-btn>
+					<v-btn small v-if="item.status==='FINISH'" class="success">
+						<v-icon small left>
+							mdi-check-all
+						</v-icon>
+						Selesai
+					</v-btn>
+				</template>
 				</v-data-table>
 			</v-container>
 		</div>
@@ -50,45 +61,6 @@
 		
 		<Contactus/>
 
-		<!-- form wallet -->
-		<v-dialog
-			v-model="dialog"
-			persistent
-			max-width="600px">
-			<v-card>
-				<v-card-title>
-				<span class="text-h5">Topup IDRS</span>
-				</v-card-title>
-				<v-card-text>
-				<v-container>
-					<v-text-field
-						class="mt-4"
-						outlined
-						v-model.number="jumlah"
-						label="Nominal Topup"
-						hint="Minimal popup adalah Rp. 10.000"
-						type="number"
-						persistent-hint
-						required/>
-				</v-container>
-				</v-card-text>
-				<v-card-actions>
-				<v-spacer></v-spacer>
-				<v-btn
-					text
-					@click="dialog = false">
-					Batal
-				</v-btn>
-				<v-btn
-					class="px-8"
-					color="primary"
-					@click="handelTopup"
-					:disabled="jumlah<10000">
-					Simpan
-				</v-btn>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
 		<!-- form login-->
 
 		<v-dialog
@@ -124,6 +96,23 @@
                 {{ alert.message }}
             </v-alert>
 		</v-dialog>
+
+		<!-- untuk popup konfirmasi delete -->
+		<v-dialog v-model="dialogKonfirmasi" max-width="500px">
+			<v-card>
+				<v-card-title class="headline">Konfirmasi</v-card-title>
+				<v-card-text>
+					Apakah anda ingin melanjutkan konfirmasi ?
+				</v-card-text>
+				<v-card-actions>
+				<v-spacer></v-spacer>
+				<v-btn color="blue darken-1" text @click="dialogKonfirmasi=false">Batal</v-btn>
+				
+				<v-btn color="blue darken-1" text @click="handelKonfirmasi">OK</v-btn>
+				<v-spacer></v-spacer>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 <script>
@@ -140,11 +129,14 @@ export default {
 			alert: {
 				modal: false,
 			},
+			detil: {},
+			dialogKonfirmasi: false,
 			headers: [
 				{ text: 'Tanggal', value: 'dibuat'},
 				{ text: 'Alamat Dompet', value: 'alamat_idrs'},
 				{ text: 'Jumlah', value: 'jumlah' },
 				{ text: 'Status', value: 'status' },
+				{ text: '', value: 'aksi' },
 			],
 			data: [],
 		}
@@ -155,25 +147,23 @@ export default {
 	},
 	methods:{
 		handleGetDataTopup: async function(){
-			this.$api.$get(`api/v1/rupiah/topup/data`).then((resp)=>{
+			this.$api.$get(`api/v1/rupiah/topup/semuadata`).then((resp)=>{
 				this.data	= resp.data
 			})
 		},
-		handelTopup: function(){
+		handelKonfirmasiDialog: function(item){
+			this.detil				= item			
+			this.dialogKonfirmasi 	= true
+		},
+		handelKonfirmasi: function(){
 			this.isFetching			= true
 			
 			const payload			= {
-				alamat_idrs: this.getAkunIDRS().pubkey.toString(),
-				jumlah: this.jumlah,
-				email: this.user.email,
-				nama: this.user.name,
-				nama_depan: this.user.given_name,
-				nama_belakang: this.user.family_name,
-				call_back_url: `${process.env.API_URL}/api/v1/rupiah/topup/konfirmasi`,
-				return_url: `${process.env.FRONTEND_URL}/apps/beranda`,
+				id	: this.detil.id.toString()
 			}
 
-			this.$api.$post(`api/v1/rupiah/topup/buat`, payload).then((resp)=>{
+			this.$api.$post(`api/v1/rupiah/topup/ubah`, payload).then((resp)=>{
+				this.dialogKonfirmasi 	= false
 				this.isFetching		= false
 				this.alert			= {
 					modal	: true,
@@ -183,13 +173,6 @@ export default {
 				if(resp.status){	
 					this.dialog				= false
 					this.handleGetDataTopup()
-					if(resp.data.paymentUrl){
-						// window.open(resp.data.paymentUrl, '_blank')
-						setTimeout(()=>{
-							window.location.href=resp.data.paymentUrl
-						}, 3000)
-						
-					}
 				}
 			})
 		}
