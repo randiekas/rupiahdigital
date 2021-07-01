@@ -10,11 +10,11 @@ export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
 		titleTemplate: '%s',
-		title: 'RUPIAH DIGITAL',
+		title: 'Rupiah Digital (IDRD) - The Cheapest and Fastest Stablecoin in Indonesia',
 		meta: [
 		{ charset: 'utf-8' },
 		{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-		{ hid: 'description', name: 'description', content: '' }
+		{ hid: 'description', name: 'description', content: 'Rupiah Digital is the cheapest and fastest stablecoin that available in Indonesia that can easy to accept and implemented.' }
 		],
 		link: [
 		{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -134,7 +134,14 @@ export default {
 		}
 		}
 	},
-
+	pwa: {
+		manifest: {
+			name: 'Rupiah Digital (IDRD) - The Cheapest and Fastest Stablecoin in Indonesia',
+			short_name: 'Rupiah Digital (IDRD)',
+			description: 'Rupiah Digital is the cheapest and fastest stablecoin that available in Indonesia that can easy to accept and implemented.',
+			lang: 'en',
+		}
+	},
 	// Build Configuration: https://go.nuxtjs.dev/config-build
 	build: {
 	},
