@@ -70,7 +70,8 @@
 				:getKoneksi="getKoneksi"
 				:handleGetDataDompet="handleGetDataDompet"
 				:handelUpdateSaldoIDRS="handelUpdateSaldoIDRS"
-				:convertCurrency="convertCurrency"/>
+				:convertCurrency="convertCurrency"
+				:user="user"/>
 			
 		</v-main>
 
@@ -162,14 +163,16 @@
 				<v-spacer></v-spacer>
 				<v-btn
 					text
-					to="/">
+					to="/"
+					:disabled="isFetching">
 					Batal
 				</v-btn>
 				<v-btn
 					class="px-8"
 					color="primary"
-					@click="handelMasuk">
-					Masuk
+					@click="handelMasuk"
+					:disabled="isFetching">
+					{{ isFetching?"Memproses ...":"Masuk"}}
 				</v-btn>
 				</v-card-actions>
 			</v-card>
@@ -432,7 +435,56 @@ export default {
 			})
 		},
 		handelMasuk: async function(){
-			
+			this.isFetching	= true
+				// const initParams = {
+				// 			redirect_url: `${process.env.FRONTEND_URL}/apps/checkpembelian`,
+				// 			environment: "production",
+				// 			locale: "id",
+				// 			access_key: "86bf10b4a1412168a401a2128fd5f9435123a24799257530bd6a040e14572f6e",
+				// 			site_name: "test.com",
+				// 			order_id: "ord_BVOM6QI2Pk8795",
+				// 			customer_id: "cus_zY83DSxK2I2639",
+				// 			order_info: {
+				// 				id: "ord_qwvcQnNXQl0581",
+				// 				customer_info: {
+				// 					id: "cus_zY83DSxK2I2639",
+				// 					email: "randiekas@gmail.com",
+				// 					name: "Randi Eka Setiawan",
+				// 				}
+				// 			},
+				// 			onSuccess: function(response) {
+				// 				// this happens after the payment is completed successfully
+				// 				var paymentId = response.payment_id;
+				// 				alert('Payment complete! Payment Id: ' + paymentId);
+				// 				// Make an AJAX call to your server with the reference to verify the transaction
+				// 			},
+				// 			onFailure: function() {
+				// 				alert('Transaction was not completed, transaction failed!');
+				// 			},
+				// 		}
+				// 		// const initParams = {
+				// 		// 	"redirect_url": "https://localhost:3000/apps/checkpembelian",
+				// 		// 	"environment": "production",
+				// 		// 	"locale": "id",
+				// 		// 	"access_key": "d1ec13250e452a6c55c2c77613dfb584b3bb1e65c8c938b9344f426b984be75f",
+				// 		// 	"site_name": "test.com",
+				// 		// 	"order_id": "ord_qwvcQnNXQl0581",
+				// 		// 	"customer_id": "cus_zY83DSxK2I2639",
+				// 		// 	"order_info": {
+				// 		// 		"id": "ord_qwvcQnNXQl0581",
+				// 		// 		"customer_info": {
+				// 		// 			"id": "cus_zY83DSxK2I2639",
+				// 		// 			"email": "randiekas@gmail.com",
+				// 		// 			"name": "Randi Eka Setiawan"
+				// 		// 		}
+				// 		// 	}
+				// 		// }
+				// 		// console.log(JSON.stringify(initParams))
+				// 		const dpay = Durianpay.init(initParams);
+				// 		dpay.checkout();
+
+				// return false
+				
 			const lockedData = localStorage.getItem(this.user.email)
 			const {
 				encrypted: encodedEncrypted,
@@ -448,6 +500,7 @@ export default {
 			const plaintext = secretbox.open(encrypted, nonce, key)
 			if (!plaintext) {
 				alert("Incorrect password")
+				this.isFetching	= false
 				return ;
 			}
 			const decodedPlaintext = new Buffer(plaintext).toString()
@@ -467,13 +520,15 @@ export default {
 				const payload		= Object.assign({}, this.dompet[0])
 				payload.alamat_idrs	= this.akunIDRS.pubkey.toString()
 				this.$api.$post(`api/v1/rupiah/dompet/ubah`, payload).then((resp)=>{
+					this.isFetching	= false
 					if(resp.status){	
 						this.dialog				= false
 						this.handleGetDataDompet()
 					}
 				})
+			}else{
+				this.isFetching	= false
 			}
-			
 		},
 		deriveEncryptionKey: async function(password,salt,iterations,digest){
 			return new Promise((resolve, reject) =>
@@ -490,6 +545,100 @@ export default {
 			await localStorage.removeItem(this.user.email)
 			await this.$auth.logout()
 			redirect("/")
+		},
+		rndHandelPembelian: function(){
+			var data = JSON.stringify({
+				"amount": "100",
+				"currency": "IDR",
+				"order_ref_id": "45",
+				"customer": {
+					"given_name": "Randi Eka Setiawan",
+					"email": "randiekas@gmail.com"
+				}
+			});
+
+			var config = {
+				method: 'post',
+				url: 'https://api.durianpay.id/v1/orders',
+				headers: { 
+					'Authorization': 'Basic ZHBfbGl2ZV9HV3FleDBxMHpLWjdtZE1iOg==', 
+					'Content-Type': 'application/json'
+				},
+				data : data
+			};
+
+			const instance = this.$axios.create(config);
+			instance.$post(`https://api.durianpay.id/v1/orders`, data).then((resp)=>{
+				console.log(resp) 
+				var dpay = Durianpay.init({
+					redirect_url: `${process.env.FRONTEND_URL}/apps/checkpembelian`,
+					environment: "production",
+					locale: "id",
+					access_key: resp.data.access_token,
+					site_name: "test.com",
+					order_id: resp.data.id,
+					customer_id: resp.data.customer_id,
+					order_info: {
+						id: resp.data.id,
+						customer_info: {
+							id: resp.data.customer_id,
+							email: "randiekas@gmail.com",
+							name: "randiekas",
+						}
+					},
+					onSuccess: function(response) {
+						// this happens after the payment is completed successfully
+						var paymentId = response.payment_id;
+						alert('Payment complete! Payment Id: ' + paymentId);
+						// Make an AJAX call to your server with the reference to verify the transaction
+					},
+					onFailure: function() {
+						alert('Transaction was not completed, transaction failed!');
+					},
+				});
+				// var dpay = Durianpay.init(JSON.stringify({
+				// 	locale: "id",
+				// 	access_key: resp.data.access_token,
+				// 	site_name: "rupiahdigital.com",
+				// 	order_info: {
+				// 		id: resp.data.id,
+				// 		customer_info: {
+				// 			id: resp.data.customer_id,
+				// 			email: "randiekas@gmail.com",
+				// 			name: "randiekas",
+				// 		}
+				// 	},
+				// 	container_elem: "pay-btn-container",
+				// }));
+				dpay.checkout();
+			})
+			// instance.then(function (response) {
+			// 	console.log(JSON.stringify(response.data));
+			// }).catch(function (error) {
+			// 	console.log(error);
+			// });
+			// console.log(Durianpay)
+			// var dpay = Durianpay.init({
+			// 	locale: "id",
+			// 	site_name: "rupiahdigital.com",
+			// 	access_key: "d1b84b1af0e7949939cc694fd3c2e946d670ba01ad54ed95ecd734272227c5a9",
+			// 	order_id: "ord_AjdIlmhVVv5797",
+			// 	customer_id: "cus_zY83DSxK2I2639",
+			// 	redirect_url: "https://merchant.com/redirect",
+			// 	onSuccess: function(response) {
+			// 		// this happens after the payment is completed successfully
+			// 		var paymentId = response.payment_id;
+			// 		alert('Payment complete! Payment Id: ' + paymentId);
+			// 		// Make an AJAX call to your server with the reference to verify the transaction
+			// 	},
+			// 	onFailure: function() {
+			// 		alert('Transaction was not completed, transaction failed!');
+			// 	},
+				
+			// });
+			// console.log(dpay.orders)
+			// dpay.checkout();
+			return 
 		}
 	}
 }

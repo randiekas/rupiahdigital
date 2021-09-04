@@ -261,19 +261,27 @@ export default {
     }),
 	methods:{
 		handleSubmit:function(){
-			// if(this.roleDipilih!="calon" && this.roleDipilih!="sekolah"){
-			// 	alert("Maaf, hari ini akses tersebut belum tersedia. akan tersedia besok")
-			// 	return false
-			// }
-			this.error = null
-			this.$auth.$storage.setUniversal("loginType", 'member')
-			return this.$auth
-				.loginWith('google')
-				.catch((err) => {
-					// eslint-disable-next-line no-console
-					console.error(err)
-					this.error = err.response?.data
-				})
+			
+			let user = this.$auth.user
+			let tipe = this.$auth.$storage.getUniversal("loginType")
+			if(!user){
+				// if(this.roleDipilih!="calon" && this.roleDipilih!="sekolah"){
+				// 	alert("Maaf, hari ini akses tersebut belum tersedia. akan tersedia besok")
+				// 	return false
+				// }
+				this.error = null
+				this.$auth.$storage.setUniversal("loginType", 'member')
+				return this.$auth
+					.loginWith('google')
+					.catch((err) => {
+						// eslint-disable-next-line no-console
+						console.error(err)
+						this.error = err.response?.data
+					})
+			}else{
+				this.$router.push(`/apps/beranda`) 
+			}
+			
 		}
 	}
 }

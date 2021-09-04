@@ -1,6 +1,13 @@
 import colors from 'vuetify/es5/util/colors'
-
+import path from 'path'
+import fs from 'fs'
 export default {
+	// server: {
+	// 	https: {
+	// 		key: fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem')),
+	// 		cert: fs.readFileSync(path.resolve(__dirname, 'localhost.pem'))
+	// 	}
+	// },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
 	ssr: false,
 
@@ -17,7 +24,13 @@ export default {
 		{ hid: 'description', name: 'description', content: 'Rupiah Digital is the cheapest and fastest stablecoin that available in Indonesia that can easy to accept and implemented.' }
 		],
 		link: [
-		{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+		],
+		script: [
+			{ 
+				type: 'text/javascript', 
+				src: 'https://js.durianpay.id/0.1.23/durianpay.min.js', 
+			}
 		]
 	},
 
@@ -145,9 +158,9 @@ export default {
 	// Build Configuration: https://go.nuxtjs.dev/config-build
 	build: {
 	},
-  	env: {
+	env: {
 		API_URL: process.env.API_URL,
 		// FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
-		FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
+		FRONTEND_URL: process.env.FRONTEND_URL || 'https://localhost:3000',
 	},
 }

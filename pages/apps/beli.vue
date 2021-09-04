@@ -66,7 +66,7 @@
 						outlined
 						v-model.number="jumlah"
 						label="Nominal Topup"
-						hint="Minimal popup adalah Rp. 10.000"
+						hint="Minimal popup adalah Rp. 100"
 						type="number"
 						persistent-hint
 						required/>
@@ -76,15 +76,16 @@
 				<v-spacer></v-spacer>
 				<v-btn
 					text
-					@click="dialog = false">
+					@click="dialog = false"
+					:disabled="isFetching">
 					Batal
 				</v-btn>
 				<v-btn
 					class="px-8"
 					color="primary"
 					@click="handelTopup"
-					:disabled="jumlah<10000">
-					Simpan
+					:disabled="jumlah<100 || isFetching">
+					{{ isFetching?'memproses':'Simpan'}}
 				</v-btn>
 				</v-card-actions>
 			</v-card>
@@ -112,16 +113,16 @@
 		<v-dialog
             v-if="alert.modal"
 			v-model="alert.modal"
-			width="300">
+			width="350">
 			<v-alert
 				v-model="alert.modal"
                 border="top"
                 color="green accent-4"
                 dark
-                dismissible
-                type="success"
                 >
-                {{ alert.message }}
+                <v-btn block>
+					Lanjutkan ke pembayaran
+				</v-btn>
             </v-alert>
 		</v-dialog>
 	</div>
@@ -174,22 +175,96 @@ export default {
 			}
 
 			this.$api.$post(`api/v1/rupiah/topup/buat`, payload).then((resp)=>{
-				this.isFetching		= false
-				this.alert			= {
-					modal	: true,
-					message : resp.message,
-					status: resp.status
-				}
+				// this.alert			= {
+				// 	modal	: true,
+				// 	message : resp.message,
+				// 	status: resp.status
+				// }
+				console.log(resp.data)
 				if(resp.status){	
 					this.dialog				= false
 					this.handleGetDataTopup()
-					if(resp.data.paymentUrl){
-						// window.open(resp.data.paymentUrl, '_blank')
-						setTimeout(()=>{
-							window.location.href=resp.data.paymentUrl
-						}, 3000)
-						
+					// const initParams = {
+					// 	redirect_url: `${process.env.FRONTEND_URL}/apps/checkpembelian`,
+					// 	environment: "production",
+					// 	locale: "id",
+					// 	access_key: resp.data.data.access_token,
+					// 	site_name: "test.com",
+					// 	order_id: resp.data.data.id,
+					// 	customer_id: resp.data.data.customer_id,
+					// 	order_info: {
+					// 		id: resp.data.data.id,
+					// 		customer_info: {
+					// 			id: resp.data.data.customer_id,
+					// 			email: this.user.email,
+					// 			name: this.user.name,
+					// 		}
+					// 	},
+					// 	onSuccess: function(response) {
+					// 		// this happens after the payment is completed successfully
+					// 		var paymentId = response.payment_id;
+					// 		alert('Payment complete! Payment Id: ' + paymentId);
+					// 		// Make an AJAX call to your server with the reference to verify the transaction
+					// 	},
+					// 	onFailure: function() {
+					// 		alert('Transaction was not completed, transaction failed!');
+					// 	},
+					// }
+					// console.log(JSON.stringify(initParams))
+					// const dpay = Durianpay.init(initParams);
+
+					// dpay.checkout();
+
+					
+					const initParams = {
+						// redirect_url: `${process.env.FRONTEND_URL}/apps/checkpembelian`,
+						redirect_url: `${process.env.FRONTEND_URL}/apps/beli-berhasil`,
+						environment: "production",
+						locale: "id",
+						access_key: resp.data.data.access_token,
+						site_name: "rupiahdigital.com",
+						order_id: resp.data.data.id,
+						customer_id: resp.data.data.customer_id,
+						order_info: {
+							id: resp.data.data.id,
+							customer_info: {
+								id: resp.data.data.customer_id,
+								email: this.user.email,
+								name: this.user.name,
+							}
+						},
+						onSuccess: function(response) {
+							// this happens after the payment is completed successfully
+							alert("transaksi berhasil")
+							this.handleGetDataTopup()
+							// Make an AJAX call to your server with the reference to verify the transaction
+						},
+						onFailure: function() {
+							alert('Transaction was not completed, transaction failed!');
+						},
 					}
+					// const initParams = {
+					// 	"redirect_url": "https://localhost:3000/apps/checkpembelian",
+					// 	"environment": "production",
+					// 	"locale": "id",
+					// 	"access_key": "d1ec13250e452a6c55c2c77613dfb584b3bb1e65c8c938b9344f426b984be75f",
+					// 	"site_name": "test.com",
+					// 	"order_id": "ord_qwvcQnNXQl0581",
+					// 	"customer_id": "cus_zY83DSxK2I2639",
+					// 	"order_info": {
+					// 		"id": "ord_qwvcQnNXQl0581",
+					// 		"customer_info": {
+					// 			"id": "cus_zY83DSxK2I2639",
+					// 			"email": "randiekas@gmail.com",
+					// 			"name": "Randi Eka Setiawan"
+					// 		}
+					// 	}
+					// }
+					// console.log(JSON.stringify(initParams))
+					const dpay = Durianpay.init(initParams);
+					dpay.checkout();
+					this.isFetching			= false
+					
 				}
 			})
 		}
