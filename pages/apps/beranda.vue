@@ -46,12 +46,33 @@
 						</v-btn>
 						<v-btn
 							to="/apps/transfer"
+							class="mb-2"
 							block>
 							<v-icon 
 								left>
 								mdi-bank-transfer
 							</v-icon>
 							Transfer IDRS
+						</v-btn>
+						<v-btn
+							v-on:click="handelUpdateSaldoIDRS()"
+							block
+							class="mb-2">
+							<v-icon 
+								left>
+								mdi-reload
+							</v-icon>
+							Refresh Balance
+						</v-btn>
+						<v-btn
+							:href="`https://explorer.solana.com/address/74uoMFXMnekDtQDP26AWP8WHKviXQTjLzMzRT9dqdm2A?cluster=devnet`"
+							target="_blank"
+							block>
+							<v-icon 
+								left>
+								mdi-history
+							</v-icon>
+							History
 						</v-btn>
 					</v-col>
 
@@ -156,7 +177,7 @@
 <script>
 export default {
 	layout:'apps',
-	props: ['convertCurrency', 'getAkun', 'getAkunIDRS', 'getDompet', 'getSupply', 'getSaldoIDRS'],	
+	props: ['convertCurrency', 'getAkun', 'getAkunIDRS', 'getDompet', 'getSupply', 'getSaldoIDRS', 'handelUpdateSaldoIDRS'],	
 	data: function(){
 		return {
 			stepAktif: 3,

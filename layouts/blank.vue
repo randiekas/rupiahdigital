@@ -6,9 +6,9 @@
                 dense>
                 <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
                 <v-toolbar-title>
-                    <v-icon left color="primary">
-                        mdi-cash-100
-                    </v-icon>
+                    <v-avatar>
+                        <v-img src="/icon-rupiahdigital.png"/>
+                    </v-avatar>
                     Rupiah Digital
                 </v-toolbar-title>
                 
