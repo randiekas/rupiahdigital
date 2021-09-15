@@ -2,7 +2,6 @@
     <v-app>
         <v-main>
             <v-app-bar
-                color="white"
                 elevation="0"
                 dense>
                 <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
@@ -14,24 +13,31 @@
                 </v-toolbar-title>
                 
                 <v-spacer></v-spacer>
-                <v-btn text to="/" color="primary" class="mx-1">
+                <v-btn text to="/" class="mx-1">
                     <v-icon left>
                         mdi-home
                     </v-icon>
-                    Beranda
+                    Home
                 </v-btn>
-                <v-btn text to="/blog" color="primary" class="mx-1">
+                <v-btn text href="https://medium.com/rupiahdigitalidrs" class="mx-1" target="_blank">
                     <v-icon left>
                         mdi-post-outline
                     </v-icon>
                     Blog
                 </v-btn>
-                <v-btn text to="/faq" color="primary" class="mx-1">
+                <v-btn text href="mailto:rupiahdigitalpartner@gmail.com" class="mx-1">
+                    <v-icon left>
+                        mdi-email-outline
+                    </v-icon>
+                    Contact
+                </v-btn>
+                <!-- 
+                <v-btn text to="/faq" class="mx-1">
                     <v-icon left>
                         mdi-frequently-asked-questions
                     </v-icon>
                     FAQ
-                </v-btn>
+                </v-btn> -->
                 
             </v-app-bar>
             <nuxt/>

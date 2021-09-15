@@ -4,15 +4,15 @@
 			<v-container>
 				<v-row>
 					<v-col xs="12" md="5">
-						<h1 class="mt-16 display-2">The Most Adopted Indonesian Rupiah Stablecoin</h1>
-						<p class="mt-4">Rupiah Token (IDRS) enables you to use Indonesian Rupiah directly on top of Ethereum & Binance Chain. You can use IDRS to trade on our Crypto-Exchange Partners</p>
+						<h1 class="mt-16 display-2">Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin</h1>
+						<p class="mt-4">Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.</p>
 						<v-btn
 							color="primary"
 							v-on:click="handleSubmit">
 							<v-icon left>
 								mdi-google
 							</v-icon>
-							Mulai Sekarang
+							Get IDRS Now
 						</v-btn>
 					</v-col>
 					<v-col xs="12" md="7">
@@ -33,37 +33,30 @@
 
 		<div class="primary white--text mt-16"> 
 			<v-container>
-				<v-row>
-					<v-col xs="12" md="6">
-						<h1 class="mt-4 display-2">Rp. 1.000.000</h1>
-						<p class="mt-4">Total Circulating Supply</p>
+				<v-row class="mt-4 mb-4">
+					<v-col md="2">
+						<h1 class="display-2">Sponsor</h1>
 					</v-col>
-					<v-col xs="12" md="2" class="text-center">
-						<h1 class="mt-4 display-2">100+</h1>
-						<p class="mt-4">
-							<v-icon left color="white">
-								mdi-account-multiple-check-outline
-							</v-icon>
-							Registered Users
-						</p>
+					<v-col md="5" class="text-center">
+						<a
+							href="https://solana.com"
+							target="_blank">
+							<v-img 
+								src="/sponsor-solana.svg"/>
+						</a>
 					</v-col>
-					<v-col xs="12" md="2" class="text-center">
-						<h1 class="mt-4 display-2">100+</h1>
-						<p class="mt-4">
-							<v-icon left color="white">
-								mdi-account-supervisor-outline
-							</v-icon>
-							Community
-						</p>
-					</v-col>
-					<v-col xs="12" md="2" class="text-center">
-						<h1 class="mt-4 display-2">100+</h1>
-						<p class="mt-4">
-							<v-icon left color="white">
-								mdi-storefront-outline
-							</v-icon>
-							Online Store
-						</p>
+					<v-col md="5">
+						<v-btn 
+							x-large
+							href="https://projectserum.com"
+							target="_blank">
+							<v-avatar left>
+								<v-img 
+									src="/sponsor-serum.svg"/>
+							</v-avatar>
+							Project Serum
+						</v-btn>
+						
 					</v-col>
 				</v-row>
 			</v-container>
@@ -72,58 +65,41 @@
 		<div> 
 			<v-container>
 				<h1 class="mt-16 display-2 text-center">
-					100++ orang telah memilih <br/> Rupiah Digital inilah alasannya
+					Our Values
 				</h1>
 				<v-row class="mt-16">
 					<v-col xs="12" md="4">
 						<v-icon size="48">
-								mdi-scale-balance
+								mdi-clock-fast
 							</v-icon>
-						<h1 class="mt-4 display-1">Stable</h1>
-						<p class="mt-4">IDRS is the first crypto-asset which price is intended to mimic the value of Indonesian Rupiah.</p>
+						<h1 class="mt-4 display-1">Fast Settlement</h1>
+						<p class="mt-4">Get instant confirmation when purchase, send, or withdraw IDRS</p>
 					</v-col>
 					<v-col xs="12" md="4">
 						<v-icon size="48">
-							mdi-bank-check
+							mdi-speedometer-slow
 						</v-icon>
-						<h1 class="mt-4 display-1">Reliable</h1>
-						<p class="mt-4">IDRS leverages the world-renowned security and transparency of major public Blockchains</p>
+						<h1 class="mt-4 display-1">Cheap Cost</h1>
+						<p class="mt-4">Almost zero cost when purchase, send, or withdraw IDRS</p>
 					</v-col>
 					<v-col xs="12" md="4">
 						<v-icon size="48">
-							mdi-lock-check
+							mdi-cash-multiple
 						</v-icon>
-						<h1 class="mt-4 display-1">Secure</h1>
-						<p class="mt-4">Our IDRS Smart Contract has been audited by CertiK. You can find our certificate at the bottom of this website</p>
-					</v-col>
-					<v-col xs="12" md="4">
-						<v-icon size="48">
-							mdi-bank-transfer
-						</v-icon>
-						<h1 class="mt-4 display-1">Fast & Borderless</h1>
-						<p class="mt-4">You can send IDRS to anyone, anytime, and anywhere within minutes, thanks to the power of Blockchain</p>
-					</v-col>
-					<v-col xs="12" md="4">
-						<v-icon size="48">
-							mdi-certificate-outline
-						</v-icon>
-						<h1 class="mt-4 display-1">Trusted</h1>
-						<p class="mt-4">The circulating IDRS token is regularly audited by an independent auditor</p>
+						<h1 class="mt-4 display-1">Scalable Solution</h1>
+						<p class="mt-4">Suitable for business purpose with huge number of transactions</p>
 					</v-col>
 					
 				</v-row>
 			</v-container>
 		</div>
 
-		<div class="grey lighten-4"> 
+		<div class=""> 
 			<v-container class="py-16">
 				<h1 class="display-2 text-center">
 					How to Purchase and Sell IDRS
 				</h1>
 				<v-row class="mt-16">
-					<v-col xs="12" md="6" class="text-center">
-						<v-img width="80%" src="/purchase-sell.svg"/>
-					</v-col>
 					<v-col xs="12" md="6">
 						<!-- stepper -->
 						<h3>
@@ -155,7 +131,10 @@
 						</v-stepper>
 
 						
-						<h3 class="mt-8">
+					</v-col>
+					<v-col xs="12" md="6">
+						
+						<h3>
 							Withdraw IDRS back to Rupiah
 						</h3>
 						<v-stepper vertical elevation="0" class="mt-4">
@@ -197,12 +176,11 @@
 					</v-col>
 					<v-col xs="12" md="4" class="text-center justify-center align-center d-flex">
 						<v-btn
-							color="white"
 							v-on:click="handleSubmit">
 							<v-icon left>
 								mdi-google
 							</v-icon>
-							Mulai Sekarang
+							Get IDRS Now
 						</v-btn>
 					</v-col>
 					

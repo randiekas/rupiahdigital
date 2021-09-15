@@ -31,7 +31,7 @@
 						<v-icon>mdi-apps</v-icon>
 					</v-list-item-action>
 					<v-list-item-content>
-						<v-list-item-title v-text="'Beranda'" />
+						<v-list-item-title v-text="'Home'" />
 					</v-list-item-content>
 				</v-list-item>
 				<v-list-item
@@ -53,7 +53,7 @@
 						<v-icon>mdi-logout</v-icon>
 					</v-list-item-action>
 					<v-list-item-content>
-						<v-list-item-title v-text="'Keluar'" />
+						<v-list-item-title v-text="'Sign out'" />
 					</v-list-item-content>
 				</v-list-item>
 			</v-list>
@@ -82,7 +82,7 @@
 			max-width="600px">
 			<v-card>
 				<v-card-title>
-				<span class="text-h5">Buat/Import Dompet</span>
+				<span class="text-h5">Create/Import Wallet</span>
 				</v-card-title>
 				<v-card-text>
 				<v-container>
@@ -93,7 +93,7 @@
 						class="mt-4"
 						outlined
 						v-model="seedTeks"
-						label="Masukkan Seed"
+						label="Type Seed"
 						hint="Please enter a valid BIP 39 seed phrase."
 						required
 						persistent-hint/>
@@ -101,7 +101,7 @@
 						class="mt-4"
 						outlined
 						v-model="sandiTeks"
-						label="Masukkan Sandi"
+						label="Type Password"
 						hint="Please enter a password."
 						type="password"
 						required/>
@@ -115,7 +115,7 @@
 				<v-btn
 					text
 					@click="dialog = false">
-					Batal
+					Cancel
 				</v-btn>
 				<v-btn
 					v-if="!seedAlreadyCopy"
@@ -123,7 +123,7 @@
 					color="primary"
 					@click="dialog = false"
 					disabled>
-					Simpan
+					Create
 				</v-btn>
 				<v-btn
 					v-else
@@ -131,7 +131,7 @@
 					color="primary"
 					@click="handleBuatDompet"
 					:disabled="isValid()">
-					Simpan
+					Create
 				</v-btn>
 				</v-card-actions>
 			</v-card>
@@ -144,7 +144,7 @@
 			max-width="600px">
 			<v-card>
 				<v-card-title>
-				<span class="text-h5">Masuk</span>
+				<span class="text-h5">Sign in to your wallet</span>
 				</v-card-title>
 				<v-card-text>
 				<v-container>
@@ -152,7 +152,7 @@
 						class="mt-4"
 						outlined
 						v-model="sandiTeks"
-						label="Masukkan Sandi"
+						label="Type your password"
 						hint="Please enter a password."
 						type="password"
 						required
@@ -165,14 +165,14 @@
 					text
 					to="/"
 					:disabled="isFetching">
-					Batal
+					Cancel
 				</v-btn>
 				<v-btn
 					class="px-8"
 					color="primary"
 					@click="handelMasuk"
 					:disabled="isFetching">
-					{{ isFetching?"Memproses ...":"Masuk"}}
+					{{ isFetching?"Processing ...":"Signin"}}
 				</v-btn>
 				</v-card-actions>
 			</v-card>
@@ -186,7 +186,7 @@
 				color="primary"
 				dark>
 				<v-card-text>
-				Memproses
+				Processing
 				<v-progress-linear
 					indeterminate
 					color="white"
@@ -258,19 +258,19 @@ export default {
 					},
 					{
 						"ikon": "mdi-cash-100",
-						"nama":"Beli Token",
+						"nama":"Buy IDRS",
 						"deskripsi":"Sistem Pengelolaan Data Akademik Terpadu",
 						"link":"/apps/beli"
 					},
 					{
 						"ikon": "mdi-cash-multiple",
-						"nama":"Transfer Token",
+						"nama":"Transfer IDRS",
 						"deskripsi":"Sistem Pengelolaan Data Akademik Terpadu",
 						"link":"/apps/transfer"
 					},
 					{
 						"ikon": "mdi-bank-transfer",
-						"nama":"Withdraw",
+						"nama":"Withdraw IDRS",
 						"deskripsi":"Sistem Pengelolaan Data Keuangan Terpadu",
 						"link":"/apps/withdraw"
 					},
@@ -428,6 +428,7 @@ export default {
 					status: resp.status
 				}
 				if(resp.status){	
+					this.storagePassword	= localStorage.getItem(this.user.email)
 					this.dialog				= false
 					this.handleGetDataDompet()
 					// redirect('/apps/beranda')
@@ -544,7 +545,7 @@ export default {
 		handelKeluar: async function(){
 			await localStorage.removeItem(this.user.email)
 			await this.$auth.logout()
-			redirect("/")
+			//redirect("/")
 		},
 		rndHandelPembelian: function(){
 			var data = JSON.stringify({

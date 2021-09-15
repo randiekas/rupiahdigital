@@ -1,5 +1,5 @@
 <template>
-	<div class="grey lighten-4">
+	<div>
 
 		<div> 
 			<v-container>

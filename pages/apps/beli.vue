@@ -1,5 +1,5 @@
 <template>
-	<div class="grey lighten-4">
+	<div>
 
 		<div> 
 			<v-container>
@@ -130,7 +130,7 @@
 <script>
 export default {
 	layout:'apps',
-	props: ['convertCurrency', 'getAkunIDRS'],	
+	props: ['convertCurrency', 'getAkunIDRS', 'getAkun'],	
 	data: function(){
 		let user = this.$auth.user
 		return {
@@ -164,7 +164,7 @@ export default {
 			this.isFetching			= true
 			
 			const payload			= {
-				alamat_idrs: this.getAkunIDRS().pubkey.toString(),
+				alamat_idrs: this.getAkun()?this.getAkun().publicKey.toString():'',
 				jumlah: this.jumlah,
 				email: this.user.email,
 				nama: this.user.name,
@@ -174,13 +174,13 @@ export default {
 				return_url: `${process.env.FRONTEND_URL}/apps/beranda`,
 			}
 
-			this.$api.$post(`api/v1/rupiah/topup/buat`, payload).then((resp)=>{
+			this.$api.$post(`api/v1/rupiah/topup/buat`, payload).then(async (resp)=>{
 				// this.alert			= {
 				// 	modal	: true,
 				// 	message : resp.message,
 				// 	status: resp.status
 				// }
-				console.log(resp.data)
+				
 				if(resp.status){	
 					this.dialog				= false
 					this.handleGetDataTopup()
@@ -235,8 +235,6 @@ export default {
 						},
 						onSuccess: function(response) {
 							// this happens after the payment is completed successfully
-							alert("transaksi berhasil")
-							this.handleGetDataTopup()
 							// Make an AJAX call to your server with the reference to verify the transaction
 						},
 						onFailure: function() {
@@ -261,9 +259,13 @@ export default {
 					// 	}
 					// }
 					// console.log(JSON.stringify(initParams))
-					const dpay = Durianpay.init(initParams);
-					dpay.checkout();
-					this.isFetching			= false
+					const dpay = Durianpay.init(initParams).checkout();
+					console.log(dpay)
+					setTimeout(()=>{
+						
+						this.isFetching			= false
+					}, 5000)
+					
 					
 				}
 			})

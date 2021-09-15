@@ -7,8 +7,7 @@
 					<p class="mt-4">Please contact us using whatsapp messanger</p>
 				</v-col>
 				<v-col xs="12" md="4" class="text-center justify-center align-center d-flex">
-					<v-btn
-						color="white">
+					<v-btn>
 						<v-icon left>
 							mdi-whatsapp
 						</v-icon>

@@ -1,6 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
-import path from 'path'
-import fs from 'fs'
+// import path from 'path'
+// import fs from 'fs'
 export default {
 	// server: {
 	// 	https: {
@@ -17,14 +17,28 @@ export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
 		titleTemplate: '%s',
-		title: 'Rupiah Digital (IDRD) - The Cheapest and Fastest Stablecoin in Indonesia',
+		title: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin',
 		meta: [
 		{ charset: 'utf-8' },
 		{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-		{ hid: 'description', name: 'description', content: 'Rupiah Digital is the cheapest and fastest stablecoin that available in Indonesia that can easy to accept and implemented.' }
+		{ name: 'title', content: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin' },
+		{ name: 'description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.' },
+
+		{ property: 'og:type', content: 'website' },
+		{ property: 'og:url', content: 'https://rupiahdigital.com' },
+		{ property: 'og:title', content: 'upiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin' },
+		{ property: 'og:description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.' },
+		{ property: 'og:image', content: 'https://rupiahdigital.com/cover-idrs.jpg' },
+
+		{ property: 'twitter:card', content: 'summary_large_image' },
+		{ property: 'twitter:url', content: 'https://rupiahdigital.com' },
+		{ property: 'twitter:title', content: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin' },
+		{ property: 'twitter:description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.' },
+		{ property: 'twitter:image', content: 'https://rupiahdigital.com/cover-idrs.jpg' },
+
 		],
 		link: [
-			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+			{ rel: 'icon', type: 'image/x-icon', href: 'https://rupiahdigital.com//favicon.ico' }
 		],
 		script: [
 			{ 
@@ -130,28 +144,28 @@ export default {
 		customVariables: ['~/assets/variables.scss'],
 		// icons: 'mdi',
 		theme: {
-		dark: false,
+		dark: true,
 		themes: {
 			dark: {
-			primary: colors.blue.darken2,
-			accent: colors.grey.darken3,
-			secondary: colors.amber.darken3,
-			info: colors.teal.lighten1,
-			warning: colors.amber.base,
-			error: colors.deepOrange.accent4,
-			success: colors.green.accent3
+				primary:'#4268F6',
+				accent: colors.grey.darken3,
+				secondary: colors.amber.darken3,
+				info: colors.teal.lighten1,
+				warning: colors.amber.base,
+				error: colors.deepOrange.accent4,
+				success: colors.green.accent3
 			},
 			light:{
-			primary:'#4268F6'
+				primary:'#4268F6'
 			}
 		}
 		}
 	},
 	pwa: {
 		manifest: {
-			name: 'Rupiah Digital (IDRD) - The Cheapest and Fastest Stablecoin in Indonesia',
-			short_name: 'Rupiah Digital (IDRD)',
-			description: 'Rupiah Digital is the cheapest and fastest stablecoin that available in Indonesia that can easy to accept and implemented.',
+			name: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin',
+			short_name: 'Rupiah Digital (IDRS)',
+			description: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.',
 			lang: 'en',
 		}
 	},
@@ -161,6 +175,6 @@ export default {
 	env: {
 		API_URL: process.env.API_URL,
 		// FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
-		FRONTEND_URL: process.env.FRONTEND_URL || 'https://localhost:3000',
+		FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
 	},
 }
