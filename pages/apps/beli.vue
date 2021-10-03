@@ -5,8 +5,8 @@
 			<v-container>
 				<div :class="`mt-6 text-h6 d-flex justify-space-between`">
 					<div>
-						<p class="text-h4 mb-0">Beli</p>
-						<p class="subtitle-2">Beli/topup token IDRS</p>
+						<p class="text-h4 mb-0">Buy</p>
+						<p class="subtitle-2">Buy your IDRS Token</p>
 					</div>
 					<div>
 						<v-btn 

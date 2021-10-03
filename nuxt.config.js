@@ -17,23 +17,23 @@ export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
 		titleTemplate: '%s',
-		title: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin',
+		title: 'Rupiah Digital - Your Gateway to Access Crypto, DeFi, and NFTs using Indonesian Rupiah',
 		meta: [
 		{ charset: 'utf-8' },
 		{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-		{ name: 'title', content: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin' },
-		{ name: 'description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.' },
+		{ name: 'title', content: 'Rupiah Digital - Your Gateway to Access Crypto, DeFi, and NFTs using Indonesian Rupiah' },
+		{ name: 'description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access crypto, DeFi, and NFTs.' },
 
 		{ property: 'og:type', content: 'website' },
 		{ property: 'og:url', content: 'https://rupiahdigital.com' },
 		{ property: 'og:title', content: 'upiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin' },
-		{ property: 'og:description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.' },
+		{ property: 'og:description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access crypto, DeFi, and NFTs.' },
 		{ property: 'og:image', content: 'https://rupiahdigital.com/cover-idrs.jpg' },
 
 		{ property: 'twitter:card', content: 'summary_large_image' },
 		{ property: 'twitter:url', content: 'https://rupiahdigital.com' },
-		{ property: 'twitter:title', content: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin' },
-		{ property: 'twitter:description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.' },
+		{ property: 'twitter:title', content: 'Rupiah Digital - Your Gateway to Access Crypto, DeFi, and NFTs using Indonesian Rupiah' },
+		{ property: 'twitter:description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access crypto, DeFi, and NFTs.' },
 		{ property: 'twitter:image', content: 'https://rupiahdigital.com/cover-idrs.jpg' },
 
 		],
@@ -163,9 +163,9 @@ export default {
 	},
 	pwa: {
 		manifest: {
-			name: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin',
+			name: 'Rupiah Digital - Your Gateway to Access Crypto, DeFi, and NFTs using Indonesian Rupiah',
 			short_name: 'Rupiah Digital (IDRS)',
-			description: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.',
+			description: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access crypto, DeFi, and NFTs.',
 			lang: 'en',
 		}
 	},

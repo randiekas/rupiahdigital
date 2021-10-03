@@ -4,8 +4,8 @@
 			<v-container>
 				<v-row>
 					<v-col xs="12" md="5">
-						<h1 class="mt-16 display-2">Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin</h1>
-						<p class="mt-4">Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access digital assets.</p>
+						<h1 class="mt-16 display-2">Rupiah Digital - Your Gateway to Access Crypto, DeFi, and NFTs using Indonesian Rupiah</h1>
+						<p class="mt-4">Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access crypto, DeFi, and NFTs.</p>
 						<v-btn
 							color="primary"
 							v-on:click="handleSubmit">

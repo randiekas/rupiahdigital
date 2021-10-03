@@ -4,7 +4,7 @@
 		<div> 
 			<v-container>
 				<p class="text-h4 mb-0">Transfer</p>
-				<p class="subtitle-2">Transfer sesama pengguna wallet IDRS</p>
+				<p class="subtitle-2">Transfer between IDRS Users</p>
 			</v-container>
 		</div>
 

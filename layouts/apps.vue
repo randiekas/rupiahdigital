@@ -48,12 +48,22 @@
 				</v-list-item>
 				<v-list-item
 					color="primary"
+					v-on:click="handelLock">
+					<v-list-item-action>
+						<v-icon>mdi-lock</v-icon>
+					</v-list-item-action>
+					<v-list-item-content>
+						<v-list-item-title v-text="'Lock wallet'" />
+					</v-list-item-content>
+				</v-list-item>
+				<v-list-item
+					color="primary"
 					v-on:click="handelKeluar">
 					<v-list-item-action>
 						<v-icon>mdi-logout</v-icon>
 					</v-list-item-action>
 					<v-list-item-content>
-						<v-list-item-title v-text="'Sign out'" />
+						<v-list-item-title v-text="'Logout wallet'" />
 					</v-list-item-content>
 				</v-list-item>
 			</v-list>
@@ -114,7 +124,7 @@
 				<v-spacer></v-spacer>
 				<v-btn
 					text
-					@click="dialog = false">
+					v-on:click="handelLock">
 					Cancel
 				</v-btn>
 				<v-btn
@@ -250,12 +260,6 @@ export default {
 			tipe,
 			apps:{
 				'member': [
-					{
-						"ikon": "mdi-wallet",
-						"nama":"Wallet",
-						"deskripsi":"Sistem Pengelolaan Penerimaan Peserta Didik Baru",
-						"link":"/apps/dompet"
-					},
 					{
 						"ikon": "mdi-cash-100",
 						"nama":"Buy IDRS",
@@ -541,6 +545,10 @@ export default {
 		handelUpdateSaldoIDRS: async function(){
 			const saldo 	= (await this.koneksi.getTokenAccountBalance(this.akunIDRS.pubkey)).value.amount
 			this.saldoIDRS	= saldo
+		},
+		handelLock: async function(){
+			await this.$auth.logout()
+			//redirect("/")
 		},
 		handelKeluar: async function(){
 			await localStorage.removeItem(this.user.email)

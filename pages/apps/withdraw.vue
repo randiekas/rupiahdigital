@@ -4,7 +4,7 @@
 		<div> 
 			<v-container>
 				<p class="text-h4 mb-0">Withdraw</p>
-				<p class="subtitle-2">Tarik saldo IDRS menjadi rupiah</p>
+				<p class="subtitle-2">Withdraw your IDRS Token into Rupiah</p>
 			</v-container>
 		</div>
 
