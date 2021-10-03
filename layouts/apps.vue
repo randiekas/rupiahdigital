@@ -141,7 +141,7 @@
 					color="primary"
 					@click="handleBuatDompet"
 					:disabled="isValid()">
-					Create
+					Create / Import
 				</v-btn>
 				</v-card-actions>
 			</v-card>

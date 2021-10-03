@@ -14,22 +14,22 @@
 				<v-row>
 					<v-col sm="12" md="6" cols="12">
 						<h1>Rp. {{ convertCurrency(getSaldoIDRS()) }}</h1>
-						<p>Saldo Anda</p>
+						<p>Your balance</p>
 						<v-text-field
 							dense
 							class="mt-4"
 							outlined
 							v-model="alamatTujuan"
-							label="Alamat IDRS Tujuan"
-							hint="Masukkan alamat IDRS tujuan"
+							label="IDRS Address Recipient"
+							hint="Input IDRS Address Recipient"
 							required/>
 						<v-text-field
 							dense
 							class="mt-4"
 							outlined
 							v-model.number="jumlah"
-							label="Jumlah"
-							hint="Masukkan jumlah yang akan dikirim"
+							label="Amount"
+							hint="Input amount"
 							type="number"
 							required
 							:max="getSaldoIDRS()"/>
@@ -39,7 +39,7 @@
 								color="primary"
 								v-on:click="handelTransfer"
 								:disabled="!isValid()">
-								Kirim
+								Send
 							</v-btn>
 						</div>
 					</v-col>

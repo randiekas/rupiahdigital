@@ -34,7 +34,7 @@
 				>
 				<template v-slot:top>
 					<v-card-title>
-						Riwayat Pembelian
+						Transaction History
 					</v-card-title>
 				</template>
 				<template v-slot:[`item.dibuat`]="{item}">
@@ -142,9 +142,9 @@ export default {
 				modal: false,
 			},
 			headers: [
-				{ text: 'Tanggal', value: 'dibuat'},
-				{ text: 'Alamat Dompet', value: 'alamat_idrs'},
-				{ text: 'Jumlah', value: 'jumlah' },
+				{ text: 'Date', value: 'dibuat'},
+				{ text: 'Wallet Address', value: 'alamat_idrs'},
+				{ text: 'Amount', value: 'jumlah' },
 				{ text: 'Status', value: 'status' },
 			],
 			data: [],

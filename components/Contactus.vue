@@ -7,11 +7,13 @@
 					<p class="mt-4">Please contact us using whatsapp messanger</p>
 				</v-col>
 				<v-col xs="12" md="4" class="text-center justify-center align-center d-flex">
-					<v-btn>
+					<v-btn
+						href="https://t.me/joinchat/-1Xlpi1I-U5jMGZl"
+						target="_blank">
 						<v-icon left>
-							mdi-whatsapp
+							mdi-telegram
 						</v-icon>
-						Hubungi Kami
+						Contact Us
 					</v-btn>
 				</v-col>
 			</v-row>
