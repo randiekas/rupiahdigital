@@ -66,7 +66,7 @@
 						outlined
 						v-model.number="jumlah"
 						label="Nominal Topup"
-						hint="Minimal popup adalah Rp. 100"
+						hint="Minimal popup adalah Rp. 10.000"
 						type="number"
 						persistent-hint
 						required/>
@@ -84,7 +84,7 @@
 					class="px-8"
 					color="primary"
 					@click="handelTopup"
-					:disabled="jumlah<100 || isFetching">
+					:disabled="jumlah<10000 || isFetching">
 					{{ isFetching?'memproses':'Simpan'}}
 				</v-btn>
 				</v-card-actions>
