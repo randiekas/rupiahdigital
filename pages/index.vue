@@ -147,7 +147,7 @@
 
 
 							<v-stepper-step step="2">
-								We burn the IDRS from the Ethereum Blockchain to reduce total circulating supply
+								We burn the IDRS from the Solana Blockchain to reduce total circulating supply
 							</v-stepper-step>
 							<v-stepper-content step="2">
 							</v-stepper-content>
