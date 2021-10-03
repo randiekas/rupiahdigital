@@ -65,7 +65,7 @@
 							Refresh Balance
 						</v-btn>
 						<v-btn
-							:href="`https://explorer.solana.com/address/74uoMFXMnekDtQDP26AWP8WHKviXQTjLzMzRT9dqdm2A?cluster=devnet`"
+							:href="`https://explorer.solana.com/address/BWe1ReuW5KjaUMZTdq3yPxUAkoBbvm6kaFG4cCvapX9p`"
 							target="_blank"
 							block>
 							<v-icon 

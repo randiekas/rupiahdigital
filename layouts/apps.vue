@@ -223,8 +223,8 @@ import bs58 from "bs58"
 
 
 import { Connection, PublicKey } from '@solana/web3.js';
-const WALLET_URL 	= "https://api.devnet.solana.com"
-const TOKEN_IDRS	= "74uoMFXMnekDtQDP26AWP8WHKviXQTjLzMzRT9dqdm2A"
+const WALLET_URL 	= "https://solana-api.projectserum.com"
+const TOKEN_IDRS	= "BWe1ReuW5KjaUMZTdq3yPxUAkoBbvm6kaFG4cCvapX9p"
 export default {
 	beforeMount: async function (){
 		const koneksi	= new Connection(WALLET_URL)
