@@ -26,7 +26,7 @@ export default {
 
 		{ property: 'og:type', content: 'website' },
 		{ property: 'og:url', content: 'https://rupiahdigital.com' },
-		{ property: 'og:title', content: 'upiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin' },
+		{ property: 'og:title', content: 'Rupiah Digital - Your Gateway to Access Digital Assets using Indonesian Rupiah Stablecoin' },
 		{ property: 'og:description', content: 'Rupiah Digital (IDRS) is a stablecoin powered by Solana Blockchain (SOL). By using Solana we provide the most scalable and cheapest Indonesian Rupiah Stablecoin that can be used as a gateway to access crypto, DeFi, and NFTs.' },
 		{ property: 'og:image', content: 'https://rupiahdigital.com/cover-idrs.jpg' },
 
@@ -41,9 +41,9 @@ export default {
 			{ rel: 'icon', type: 'image/x-icon', href: 'https://rupiahdigital.com//favicon.ico' }
 		],
 		script: [
-			{ 
-				type: 'text/javascript', 
-				src: 'https://js.durianpay.id/0.1.23/durianpay.min.js', 
+			{
+				type: 'text/javascript',
+				src: 'https://js.durianpay.id/0.1.23/durianpay.min.js',
 			}
 		]
 	},

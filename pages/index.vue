@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div> 
+		<div>
 			<v-container>
 				<v-row>
 					<v-col xs="12" md="5">
@@ -31,38 +31,25 @@
 			</v-container>
 		</div>
 
-		<div class="primary white--text mt-16"> 
+		<div class="primary white--text mt-16">
 			<v-container>
 				<v-row class="mt-4 mb-4">
 					<v-col md="2">
-						<h1 class="display-2">Sponsor</h1>
+						<h1 class="display-2">Powered by</h1>
 					</v-col>
-					<v-col md="5" class="text-center">
+					<v-col md="10" class="text-center">
 						<a
 							href="https://solana.com"
 							target="_blank">
-							<v-img 
+							<v-img
 								src="/sponsor-solana.svg"/>
 						</a>
-					</v-col>
-					<v-col md="5">
-						<v-btn 
-							x-large
-							href="https://projectserum.com"
-							target="_blank">
-							<v-avatar left>
-								<v-img 
-									src="/sponsor-serum.svg"/>
-							</v-avatar>
-							Project Serum
-						</v-btn>
-						
 					</v-col>
 				</v-row>
 			</v-container>
 		</div>
 
-		<div> 
+		<div>
 			<v-container>
 				<h1 class="mt-16 display-2 text-center">
 					Our Values
@@ -89,12 +76,12 @@
 						<h1 class="mt-4 display-1">Scalable Solution</h1>
 						<p class="mt-4">Suitable for business purpose with huge number of transactions</p>
 					</v-col>
-					
+
 				</v-row>
 			</v-container>
 		</div>
 
-		<div class=""> 
+		<div class="">
 			<v-container class="py-16">
 				<h1 class="display-2 text-center">
 					How to Purchase and Sell IDRS
@@ -106,7 +93,7 @@
 							Purchase IDRS using Rupiah
 						</h3>
 						<v-stepper vertical elevation="0" class="mt-4">
-							
+
 							<v-stepper-step step="1">
 								You send Rupiah via our website
 							</v-stepper-step>
@@ -125,20 +112,20 @@
 							<v-stepper-step step="3">
 								We send the IDRS to your IDRS wallet
 							</v-stepper-step>
-							
+
 							<v-stepper-content step="3">
 							</v-stepper-content>
 						</v-stepper>
 
-						
+
 					</v-col>
 					<v-col xs="12" md="6">
-						
+
 						<h3>
 							Withdraw IDRS back to Rupiah
 						</h3>
 						<v-stepper vertical elevation="0" class="mt-4">
-							
+
 							<v-stepper-step step="1">
 								You send IDRS via our website
 							</v-stepper-step>
@@ -157,17 +144,17 @@
 							<v-stepper-step step="3">
 								You will receive the amount of Rupiah to your bank account
 							</v-stepper-step>
-							
+
 							<v-stepper-content step="3">
 							</v-stepper-content>
 						</v-stepper>
-							
+
 						<!-- stepper -->
 					</v-col>
 				</v-row>
 			</v-container>
 		</div>
-		<div class="primary white--text px-16"> 
+		<div class="primary white--text px-16">
 			<v-container class="px-16">
 				<v-row>
 					<v-col xs="12" md="8">
@@ -183,7 +170,7 @@
 							Get IDRS Now
 						</v-btn>
 					</v-col>
-					
+
 				</v-row>
 			</v-container>
 		</div>
@@ -213,7 +200,7 @@
 						></v-radio>
 					</v-radio-group>
 					<div class="text-right">
-							<v-btn 
+							<v-btn
 								v-on:click="handleSubmit"
 								color="primary">
 								<v-icon left>mdi-google</v-icon>
@@ -235,11 +222,11 @@ export default {
 		LottieAnimation
 	},
 	data: () => ({
-		
+
     }),
 	methods:{
 		handleSubmit:function(){
-			
+
 			let user = this.$auth.user
 			let tipe = this.$auth.$storage.getUniversal("loginType")
 			if(!user){
@@ -257,9 +244,9 @@ export default {
 						this.error = err.response?.data
 					})
 			}else{
-				this.$router.push(`/apps/beranda`) 
+				this.$router.push(`/apps/beranda`)
 			}
-			
+
 		}
 	}
 }
